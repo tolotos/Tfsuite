@@ -3,6 +3,7 @@
 #
 #       proteine.py
 
+from Tfsuite.Parser.fasta import read_fasta
 class Protein:
     def __init__(self,gene_name):
         self.gene_name = gene_name
@@ -14,6 +15,21 @@ class Protein:
         self.uniprot_id = None
         self.associated_name = None
         self.secondary_ids = []
+        self.parsers = {
+            "fasta": [read_fasta]
+            }
+
+
+    def add_sequence(self,sequences=None,format):
+        if sequences is not None:
+            format = format.lower()
+            if format in self.parsers:
+                read = self.parsers[format][0]
+                seqs = read(sequences)
+            if self.gene_name in seqs:
+                self.seq = seqs[gene_name]
+
+
 
     def add_identifiers(self, biomart):
         if self.gene_name in biomart.ids:
@@ -37,9 +53,6 @@ class Protein:
     def export_fasta(self):
         return ">"+self.species+"_"+self.gene_name+"\n", self.seq+"\n"
 
-    def add_sequence(self,fasta):
-        if self.gene_name in fasta.seqs:
-            self.seq = fasta.seqs[self.gene_name]
 
     def add_cluster(self,clusters):
         '''Adds the id of the to a protein. This is slow, if not necessary use
