@@ -4,7 +4,7 @@
 #       proteinortho.py
 
 import os
-from Tfsuite.Classes.cluster import Cluster
+from Tfsuite.core.cluster import Cluster
 
 
 def read_proteinortho(source, obj=None):
@@ -15,27 +15,34 @@ def read_proteinortho(source, obj=None):
         else:
             CG = obj
         
-        basename = os.path.basename(source)
+        clust_id = 0
+
+        try:
+            basename = os.path.basename(source)
+
+            with open(source, "r") as file:
+                for line in file.readlines():
+                    if line.startswith("#") or not line:
+                        continue
+                    else:
+                        name = basename+"_"+str(clust_id)
+                        line = line.rstrip().split()
+
+                        species, count, conn = line[0], int(line[1]), float(line[2])
+                        members = line[3:]
+                        members = split_items(members)
+
+                        CL = Cluster(name, members)
+                        CG.clusters[name] = CL
+
+                        clust_id += 1
+                return CG
+        except IOError:
+            print "File does not exit!"
+
         
-        with open(source, "r").readlines() as file:
-            for line in file:
-                if line.startswith("#") or not line:
-                    continue
-                else:
-                    line = line.rstrip().split()
-                    species, count, conn = line[0], int(line[1]), float(line[2])
-                    members = line[3:]
-                    members = split_items(members)
 
-                    print members
-                    # for nr, member in enumerate(members):
-                    #     name = basename+"_"+str(nr)
-                    #     if self.clusters.has_key(name):
-                    #         self.clusters[name].members.append(member)
-                    #     else:
-                    #         self.clusters[name] = Cluster(name,member)
-
-def split_items(self,items):
+def split_items(items):
     items = list(set(items))
     items.remove("*")
     split_items = []
