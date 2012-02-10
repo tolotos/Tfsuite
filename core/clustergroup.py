@@ -5,15 +5,16 @@
 
 from Tfsuite.parser.proteinortho import read_proteinortho
 
+
 class ClusterGroup(object):
 
-    def __init__(self, clusters = None, format="proteinortho",name=None):
+    def __init__(self, clusters=None, format="proteinortho", name=None):
         self.name = name
         self.clusters = {}
         self.parser = {
-                "proteinortho": [read_proteinortho,{}],
+                "proteinortho": [read_proteinortho, {}],
                 "orthomcl": []
-                }
+        }
 
         if clusters is not None:
                 format = format.lower()
@@ -21,5 +22,4 @@ class ClusterGroup(object):
                         read = self.parser[format][0]
                         read(clusters, obj=self)
                 else:
-                        raise ValueError, "Unsupported format: [%s]" %format
-
+                        raise ValueError("Unsupported format: [%s]" % format)
