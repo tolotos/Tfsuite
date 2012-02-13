@@ -9,7 +9,7 @@ from Tfsuite.parser.fasta import read_fasta, write_fasta
 parser = {
     "proteinortho": [read_proteinortho, None, {}],
     "orthomcl": [],
-    "fasta": [read_fasta, write_fasta, {}]
+    "fasta": [read_fasta, write_fasta, {}g]
 }
 
 
