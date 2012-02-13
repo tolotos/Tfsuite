@@ -3,9 +3,10 @@
 #
 #       proteine.py
 
-from Tfsuite.Parser.fasta import read_fasta
+
 class Protein:
-    def __init__(self,gene_name):
+
+    def __init__(self, gene_name):
         self.gene_name = gene_name
         self.seq = ""
         self.cluster = None
@@ -15,19 +16,8 @@ class Protein:
         self.uniprot_id = None
         self.associated_name = None
         self.secondary_ids = []
-        self.parsers = {
-            "fasta": [read_fasta]
-            }
 
 
-    def add_sequence(self,sequences=None,format):
-        if sequences is not None:
-            format = format.lower()
-            if format in self.parsers:
-                read = self.parsers[format][0]
-                seqs = read(sequences)
-            if self.gene_name in seqs:
-                self.seq = seqs[gene_name]
 
 
 

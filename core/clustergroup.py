@@ -3,7 +3,8 @@
 #
 #       Cluster.py
 
-from Tfsuite.parser.proteinortho import read_proteinortho
+
+from Tfsuite.parser.base import select_parser
 
 
 class ClusterGroup(object):
@@ -11,15 +12,28 @@ class ClusterGroup(object):
     def __init__(self, clusters=None, format="proteinortho", name=None):
         self.name = name
         self.clusters = {}
-        self.parser = {
-                "proteinortho": [read_proteinortho, {}],
-                "orthomcl": []
-        }
 
-        if clusters is not None:
-                format = format.lower()
-                if format in self.parser:
-                        read = self.parser[format][0]
-                        read(clusters, obj=self)
-                else:
-                        raise ValueError("Unsupported format: [%s]" % format)
+        read = select_parser(clusters, format)
+        read(clusters, obj=self)
+
+    def attach_sequences(self, sequences=None, format="fasta"):
+        read = select_parser(sequences, format)
+        seqs = read(sequences)
+        for protein in self.iter_proteins():
+            if protein in seqs:
+                protein.seq = seqs[protein]
+
+
+    def attach_domains():
+        read = select_parser(sequences, format)
+
+    def attach_biomart():
+        pass
+
+    def iter_clusters(self):
+        for cluster in self.clusters.values():
+            yield cluster
+
+    def iter_proteins(self):
+        for proteins in self.iter_clusters():
+            yield proteins

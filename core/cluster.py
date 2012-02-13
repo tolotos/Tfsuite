@@ -3,18 +3,19 @@
 #
 #       Cluster.py
 
+
 class Cluster:
-    def __init__(self, name,member):
+    def __init__(self, name, proteins):
         self.name = name
         self.counts = {}
-        self.members = [member]
+        self.proteins = proteins
         self.family = None
         self.tree = None
         self.p_value = None
         self.branch_p = None
         self.ancestral_counts = {}
         self.species_tree = None
-        #self.cor = None
+
 
 
     def add_proteins(self, hmmout):
