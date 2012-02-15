@@ -5,12 +5,15 @@
 
 from Tfsuite.parser.proteinortho import read_proteinortho
 from Tfsuite.parser.fasta import read_fasta, write_fasta
-
+from Tfsuite.parser.xdom import read_xdom
+from Tfsuite.parser.arangements import read_arangement
 parser = {
     "proteinortho": [read_proteinortho, None, {}],
     "orthomcl": [],
-    "fasta": [read_fasta, write_fasta, {}g]
-}
+    "fasta": [read_fasta, write_fasta, {}],
+    "xdom": [read_xdom, None, {}],
+    "arag": [read_arangement, None, {}]
+    }
 
 
 def select_parser(input, format):

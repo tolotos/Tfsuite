@@ -23,9 +23,19 @@ class ClusterGroup(object):
             if protein in seqs:
                 protein.seq = seqs[protein]
 
+    def attach_domains(self, domains=None, format="xdom"):
+        read = select_parser(domains, format)
+        domains = read(domains)
+        for protein in self.iter_proteins():
+            if protein.gene_name in domains:
+                for domain in domains[protein.gene_name]:
+                    domain = domain.split(",")
+                    print domain
 
-    def attach_domains():
-        read = select_parser(sequences, format)
+    def attach_arangement(self, arangement=None, format="arag"):
+        read = select_parser(arangement, format)
+        arag = read(arangement)
+        print arag
 
     def attach_biomart():
         pass
@@ -35,5 +45,6 @@ class ClusterGroup(object):
             yield cluster
 
     def iter_proteins(self):
-        for proteins in self.iter_clusters():
-            yield proteins
+        for cluster in self.iter_clusters():
+            for protein in cluster.proteins:
+                yield protein

@@ -3,6 +3,7 @@
 #
 #       fasta.py
 
+
 def read_fasta(source, obj=None):
     SG = {}
     try:
@@ -20,6 +21,7 @@ def read_fasta(source, obj=None):
             return SG
     except IOError:
         print "File does not exit!"
+
 
 def write_fasta(sequences):
     pass
