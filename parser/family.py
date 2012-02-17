@@ -3,23 +3,19 @@
 #
 #       fasta.py
 
+import os
 
-class Family:
-    def __init__(self):
-        self.families = []
-        self.mapping = {}
+def read_family(source, obj=None):
+    family2arrangement = {}
 
-    def __iter__(self):
-        #We are an iterable, so return our iterator
-        for i in self.mapping:
-            yield i, self.mapping[i]
+    try:
+        basename = os.path.basename(source)
 
-    def load(self,file):
-        lines = open(file, "r").readlines()
-        for line in lines:
-            line = line.split()
-            arrangement = line[0]
-            family = line[1]
-            self.mapping[arrangement] = family
-            if family not in self.families:
-                self.families.append(family)
+        with open(source, "r") as file:
+            for line in file.readlines():
+                line = line.split()
+                family2arrangement[line[0]] = line[1]
+            return family2arrangement
+    
+    except IOError:
+        print "File does not exit!"

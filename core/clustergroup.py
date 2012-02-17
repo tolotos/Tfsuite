@@ -28,15 +28,31 @@ class ClusterGroup(object):
         domains = read(domains)
         for protein in self.iter_proteins():
             if protein.gene_name in domains:
-                for domain in domains[protein.gene_name]:
-                    domain = domain.split(",")
-                    print domain
-
+                protein.domains = domains[protein.gene_name]
+                
     def attach_arangement(self, arangement=None, format="arag"):
         read = select_parser(arangement, format)
         arag = read(arangement)
-        print arag
+        for protein in self.iter_proteins():
+            if protein.gene_name in arag:
+                protein.species = arag[protein.gene_name][0]
+                protein.arangement = arag[protein.gene_name][1]
+        
+    
+    def attach_families(self, family=None, format="fam"):
+        read = select_parser(family, format)
+        family = read(family)
+        for protein in self.iter_proteins():
+            protein.add_family(family)
 
+
+    def get_proteins_by_species(self,species):
+        proteins = []
+        for protein in self.iter_proteins():
+            if protein.species == species:
+                proteins.append(protein)
+        return proteins
+            
     def attach_biomart():
         pass
 

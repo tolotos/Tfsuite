@@ -11,12 +11,12 @@ class Protein:
         self.seq = ""
         self.cluster = None
         self.species = None
-        self.domains = []
+        self.arangement = []
         self.family = None
         self.uniprot_id = None
         self.associated_name = None
         self.secondary_ids = []
-
+        self.domains = []
 
 
 
@@ -56,10 +56,9 @@ class Protein:
         '''Uses the mapping file that was provided before and compares the
         domain arrangements in the hmmout to the family mapping. If a hit is
         found, the family is set, otherwise it stays "None".'''
-        #self.collapse_domains()
-        domains =";".join(self.domains)
-        if domains in family.mapping:
-            self.family = family.mapping[domains]
+        domains =";".join(self.arangement)        
+        if domains in family:
+            self.family = family[domains]
 
     #def add_species(self, species):
         #if self.gene_name in species.specmap:
