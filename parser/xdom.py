@@ -5,7 +5,8 @@
 
 from Tfsuite.core.domain import Domain
 
-def read_xdom(xdom):
+
+def read_xdom(xdom, evalue):
     prots = {}
     with open(xdom, "r") as xdom:
         for line in xdom.readlines():
@@ -15,7 +16,7 @@ def read_xdom(xdom):
                     gene_name = line[0].split("|")[1]
                     prots[gene_name] = []
                 else:
-                    if float(line[3]) <= 1e-5:
-                        domain = Domain(line[2],line[0],line[1],line[3])
+                    if float(line[3]) <= float(evalue):
+                        domain = Domain(line[2], line[0], line[1], line[3])
                         prots[gene_name].append(domain)
     return prots

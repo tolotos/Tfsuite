@@ -3,42 +3,30 @@
 #
 #       cyto.py
 
-import glob
-import sys
-
-class Cyto:
-
-    def __init__(self):
-        self.name = ""
-        self.nodes = {}
-        self.interaction_type = None
-
-    def __iter__(self):
-        #We are an iterable, so return our iterator
-        for i in self.nodes:
-            yield i, self.nodes[i]
+import os
 
 
-    def load(self,cyto_file):
-        cyto_file = open(cyto_file, "r").readlines()
-        for line in cyto_file:
-            line = line.rstrip().split()
-            if self.nodes.has_key(line[0]):
-                self.nodes[line[0]].append(line[2])
-            else:
-                self.nodes[line[0]] = [line[2]]
-            if self.interaction_type == None:
-                self.interaction_type = line[1]
-            else:
-                if line[1] != self.interaction_type:
-                    print "More then one interaction type detected!"
+def read_ppsimple(source, obj=None):
 
-    def edges(self):
-        from_nodes = []
-        to_nodes = []
-        for node in self.nodes:
-            for i in range(len(self.nodes[node])):
-                from_nodes.append(node)
-            for to_node in self.nodes[node]:
-                to_nodes.append(to_node)
-        return from_nodes, to_nodes
+        if obj is None:
+            from Tfsuite.core.network import Network
+            NET = Network()
+        else:
+            NET = obj
+
+        try:
+            basename = os.path.basename(source)
+
+            with open(source, "r") as file:
+                for line in file.readlines():
+                    line = line.rstrip().split()
+                    if line[0] in NET.nodes:
+                        NET.nodes[line[0]].append(line[2])
+                    else:
+                        NET.nodes[line[0]] = [line[2]]
+
+                    if NET.interaction_type == None:
+                        NET.interaction_type = line[1]
+                    elif line[1] != NET.interaction_type:
+                        print "More then one interaction type"
+
