@@ -4,18 +4,19 @@
 #       cyto.py
 
 import os
+import sys
 
 
 def read_ppsimple(source, obj=None):
 
         if obj is None:
-            from Tfsuite.core.network import Network
-            NET = Network()
+            from Tfsuite.core import network
+            NET = network.Network()
         else:
             NET = obj
 
         try:
-            basename = os.path.basename(source)
+            #basename = os.path.basename(source)
 
             with open(source, "r") as file:
                 for line in file.readlines():
@@ -29,4 +30,10 @@ def read_ppsimple(source, obj=None):
                         NET.interaction_type = line[1]
                     elif line[1] != NET.interaction_type:
                         print "More then one interaction type"
-
+                return NET
+        except IOError:
+            print "!----ERROR----!"
+            print "File %s does not exit!" % source
+            sys.exit(1)
+        except KeyboardInterrupt:
+            sys.exit(1)

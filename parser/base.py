@@ -9,6 +9,7 @@ from Tfsuite.parser.xdom import read_xdom
 from Tfsuite.parser.arangements import read_arangement
 from Tfsuite.parser.family import read_family
 from Tfsuite.parser.biomart import read_biomart
+from Tfsuite.parser.ppsimple import read_ppsimple
 
 parser = {
     "proteinortho": [read_proteinortho, None, {}],
@@ -17,7 +18,8 @@ parser = {
     "xdom": [read_xdom, None, {}],
     "arag": [read_arangement, None, {}],
     "fam": [read_family, None, {}],
-    "biomart": [read_biomart, None, {}]
+    "biomart": [read_biomart, None, {}],
+    "ppsimple": [read_ppsimple, None, {}]
     }
 
 
