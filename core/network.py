@@ -102,22 +102,7 @@ class Network(object):
                         cytoscape.setNodeFillColor(id,[node], r,g,b)
             del colors[0]
 
-
-
-    def species_arangements(clusters,species):
-        arag_dic = {}
-        for cluster in clusters:
-
-            for member in cluster.members:
-                if member.species == species:
-                    arag = ",".join(member.domains)
-                    if arag in arag_dic:
-                        arag_dic[arag].append(member.associated_name)
-                    else:
-                        arag_dic[arag] = [member.associated_name]
-        return arag_dic
-
-    def shape_by_arangement(arag_dic,id, cytoscape):
+    def shape_by_arangement(arag_dic):
         shapes = ["trapezoid","rect_3d","round_rect","ellipse","triangle",
                   "diamond","octagon","parallelogram","trapezoid_2",
                   "rect","vee","hexagon"]
@@ -140,7 +125,7 @@ class Network(object):
                 for member in cluster.members:
                     cytoscape.setNodeProperty(member,"Node Shape", shapes[num])
 
-    def add_cluster_id_to_name(network,clusters, species, cytoscape):
+    def add_cluster_id_to_name(clusters, species):
             for cluster in clusters:
                 id = "_CL"+cluster.name.split("_")[1]
                 for member in cluster.members:

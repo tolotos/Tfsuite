@@ -18,8 +18,9 @@ class Protein:
         self.secondary_ids = []
         self.domains = []
 
-
-
+    def iter_domains(self):
+        for i in self.domains:
+            yield i
 
     def add_identifiers(self, biomart):
         if self.gene_name in biomart.ids:
@@ -40,11 +41,11 @@ class Protein:
                     self.domains = domain_list
                 else:
                     pass
+
     def export_fasta(self):
-        return ">"+self.species+"_"+self.gene_name+"\n", self.seq+"\n"
+        return ">" + self.species + "_" + self.gene_name + "\n", self.seq + "\n"
 
-
-    def add_cluster(self,clusters):
+    def add_cluster(self, clusters):
         '''Adds the id of the to a protein. This is slow, if not necessary use
            "add_cluster_to_members" function for each cluster, which is much
            faster.'''
@@ -56,7 +57,7 @@ class Protein:
         '''Uses the mapping file that was provided before and compares the
         domain arrangements in the hmmout to the family mapping. If a hit is
         found, the family is set, otherwise it stays "None".'''
-        domains =";".join(self.arangement)        
+        domains = ";".join(self.arangement)
         if domains in family:
             self.family = family[domains]
 
@@ -65,4 +66,3 @@ class Protein:
             #self.species = species.specmap[self.gene_name]
     def add_species(self):
         self.species = self.gene_name.split("|")[0]
-
